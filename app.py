@@ -19,13 +19,13 @@ st.markdown("""
         --accent: #ffffff;   /* White text */
         --highlight: #00e676; /* Green for buttons */
     }
-    
+
     /* Main background */
     .stApp {
         background-color: var(--secondary);
         color: var(--accent);
     }
-    
+
     /* Headers with gradient text */
     h1, h2, h3, h4, h5, h6 {
         color: var(--primary) !important;
@@ -34,23 +34,23 @@ st.markdown("""
         -webkit-text-fill-color: transparent;
         display: inline-block;
     }
-    
+
     /* Sidebar */
     [data-testid="stSidebar"] {
         background-color: #070927 !important;
         border-right: 1px solid rgba(79, 195, 247, 0.2) !important;
     }
-    
+
     /* Sidebar text */
     [data-testid="stSidebar"] * {
         color: var(--accent) !important;
     }
-    
+
     /* Radio buttons in sidebar */
     [data-testid="stSidebar"] .stRadio label {
         color: var(--accent) !important;
     }
-    
+
     /* Buttons with glow effect */
     .stButton>button {
         background-color: var(--highlight) !important;
@@ -62,12 +62,12 @@ st.markdown("""
         transition: all 0.3s ease !important;
         box-shadow: 0 0 10px rgba(0, 230, 118, 0.5) !important;
     }
-    
+
     .stButton>button:hover {
         transform: translateY(-2px) !important;
         box-shadow: 0 0 15px rgba(0, 230, 118, 0.8) !important;
     }
-    
+
     /* Input fields */
     .stTextInput>div>div>input {
         background-color: rgba(255, 255, 255, 0.1) !important;
@@ -76,33 +76,33 @@ st.markdown("""
         border-radius: 8px !important;
         padding: 10px !important;
     }
-    
+
     /* Slider */
     .stSlider>div>div>div>div {
         background: linear-gradient(90deg, #4fc3f7, #00e676) !important;
     }
-    
+
     /* Success message */
     .stAlert.stAlert-success {
         background-color: rgba(0, 230, 118, 0.1) !important;
         border-left: 4px solid var(--highlight) !important;
         color: var(--accent) !important;
     }
-    
+
     /* Code block */
     .stCodeBlock>div>pre {
         background-color: rgba(0, 0, 0, 0.3) !important;
         border-left: 4px solid var(--primary) !important;
         color: var(--primary) !important;
     }
-    
+
     /* Divider line */
     .stMarkdown hr {
         background: linear-gradient(90deg, transparent, var(--primary), transparent) !important;
         height: 1px !important;
         border: none !important;
     }
-    
+
     /* QR Code container */
     .stImage>img {
         border: 2px solid var(--primary) !important;
@@ -144,15 +144,16 @@ if mode == "Shorten URL":
             placeholder="https://yourlongurl.com",
             help="Paste any URL to get a shortened version"
         )
-        
+
         if st.button("Shorten URL", key="shorten_btn"):
             if long_url:
                 try:
                     s = pyshorteners.Shortener()
                     short_url = s.tinyurl.short(long_url)
-                    
+
                     st.success("Shortened URL created successfully!")
-                    
+                    st.balloons()
+
                     col1, col2 = st.columns([3, 1])
                     with col1:
                         st.code(short_url)
@@ -177,14 +178,14 @@ if mode == "Shorten URL":
 # --- QR CODE GENERATOR ---
 elif mode == "Generate QR Code":
     st.subheader("QR Code Generator")
-    
+
     with st.container():
         qr_data = st.text_input(
             "Content to encode",
             placeholder="https://example.com or any text",
             help="Enter what you want to encode in the QR code"
         )
-        
+
         col1, col2 = st.columns(2)
         with col1:
             fill_color = st.color_picker(
@@ -198,7 +199,7 @@ elif mode == "Generate QR Code":
                 "#090b33",
                 help="Background color of the QR code"
             )
-        
+
         size = st.slider(
             "QR Size", 
             min_value=5, 
@@ -206,7 +207,7 @@ elif mode == "Generate QR Code":
             value=10,
             help="Adjust the pixel density of the QR code"
         )
-        
+
         if st.button("Generate QR Code", key="qr_btn"):
             if qr_data:
                 qr = qrcode.QRCode(
@@ -223,7 +224,8 @@ elif mode == "Generate QR Code":
                 buf.seek(0)
 
                 st.success("QR Code generated successfully!")
-                
+                st.balloons()
+
                 col1, col2 = st.columns([2, 1])
                 with col1:
                     st.image(buf, caption="Your QR Code", width=300)
